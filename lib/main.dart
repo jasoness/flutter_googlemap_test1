@@ -18,7 +18,14 @@ void main() {
 class MapSample extends StatefulWidget {
   @override
   State<MapSample> createState() => MapSampleState();
-}
+
+
+  }
+
+
+
+
+
 
 class MapSampleState extends State<MapSample> {
   Completer<GoogleMapController> _controller = Completer();
@@ -33,12 +40,29 @@ class MapSampleState extends State<MapSample> {
       target: LatLng(37.56421135, 127.0016985),
       zoom: 10);
 
+
+List<Marker> _markers = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _markers.add(Marker(
+        markerId: MarkerId("1"),
+        draggable: true,
+        onTap: () => print("Marker!"),
+        infoWindow: InfoWindow(title: 'SEOUL', snippet: 'welcome'),
+        position: LatLng(37.56421135, 127.0016985)));
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       body: GoogleMap(
         mapType: MapType.normal,
         initialCameraPosition: _kGooglePlex,
+        markers: Set.from(_markers),
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
         },
@@ -49,7 +73,12 @@ class MapSampleState extends State<MapSample> {
         icon: Icon(Icons.person),
       ),
     );
+
   }
+
+
+
+
 
   Future<void> _goToTheLake() async {
     final GoogleMapController controller = await _controller.future;
